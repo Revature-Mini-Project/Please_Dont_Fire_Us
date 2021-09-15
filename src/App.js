@@ -34,11 +34,11 @@ function App() {
 
       } else {
         // INCORRECT
-
+        Failure();
 
       }
     }
-  }
+  };
 
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
@@ -49,13 +49,13 @@ function App() {
     }
     setCursor(0);
     handleRecite();
-  }
+  };
 
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
     // SOUNDS GO HERE
     setActiveButton(code);
-  }
+  };
 
   // Dims all buttons
   const dimAll = () => {
