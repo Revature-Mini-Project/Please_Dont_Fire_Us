@@ -1,7 +1,9 @@
 // Intended to allow for future expansion beyond 4 inputs
 const RESULTS = 4;
+
 // Constants for the return strings
-const ZERO = 'red', ONE = 'green', TWO = 'blue', THREE = 'yellow';
+export const ZERO = 'red', ONE = 'green', TWO = 'blue', THREE = 'yellow';
+
 // Constants for the max/min length of the return array
 const MAX = 30, MIN = 1;
 
@@ -14,9 +16,10 @@ const getRandom = () => {
 
 // Returns a consistent sequence to be iterated through
 //  Any excess inputs will be ignored; any excess length will be randomized
-//  Accepts an optional int and an optional array of ints
+//  Accepts an optional int and an optional array of strings
 //  Returns an array of strings
-export const getSequence = (length = 6, inputs = [-1]) => {
+export const getSequence = (length = 6, inputs = [ZERO]) => {
+    inputs = uncast(inputs);
     if (length < MIN) length = MIN; // Defaults to 1 in the event of a negative length
     if (length > MAX) length = MAX; // Defaults to 30 in the event of an excessive length
     for (let i = 0; i < length; i++) {
@@ -27,18 +30,46 @@ export const getSequence = (length = 6, inputs = [-1]) => {
     // Cuts out any excess inputs provided
     inputs.length = length;
 
-    // Casts integers to strings
+    return cast(inputs);
+}
+
+
+// Casts inputs from numerals to strings
+const cast = (input = [0]) => {
     let outputs = [''];
-    for (let x in inputs) {
-        switch (inputs[x]) {
+    for (let x in input) {
+        switch (input[x]) {
             case 0:
                 outputs[x] = ZERO;
             case 1:
                 outputs[x] = ONE;
             case 2:
                 outputs[x] = TWO;
-            default:
+            case 3:
                 outputs[x] = THREE;
+            default:
+                outputs[x] = '';
+        }
+    }
+
+    return outputs;
+}
+
+// Casts inputs from strings to numerals
+const uncast = (input = [ZERO]) => {
+    let outputs = [0];
+    for (let x in input) {
+        switch (input[x]) {
+            case ZERO:
+                outputs[x] = 0;
+            case ONE:
+                outputs[x] = 1;
+            case TWO:
+                outputs[x] = 2;
+            case THREE:
+                outputs[x] = 3;
+            default:
+                outputs[x] = -1
         }
     }
 
