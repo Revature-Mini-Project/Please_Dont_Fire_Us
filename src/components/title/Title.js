@@ -1,10 +1,13 @@
-export function Title() {
+import React from 'react';
+import { Container } from "reactstrap";
+
+const Title = () => {
 
     return(
-        <nav class="navbar fixed-top navbar-light bg-light" style="background-color: #e3f2fd;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">The Simon Game</a>
-            </div>
-        </nav>
+        <div>
+            <Container className="themed-container" fluid={true}>The Simon Game!!</Container>
+        </div>
     )
 }
+
+export default Title;
