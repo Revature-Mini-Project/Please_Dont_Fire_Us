@@ -1,0 +1,35 @@
+button {
+    width: 100px;
+    height: 40px;
+    margin: 5px;
+}
+
+.success {
+    color: white;
+    background-color: forestgreen;
+}
+
+.failure {
+    color: white;
+    background-color: darkred;
+}
+
+.red {
+    color: white;
+    background-color: red;
+}
+
+.green {
+    color: white;
+    background-color: green;
+}
+
+.blue {
+    color: white;
+    background-color: blue
+}
+
+.yellow {
+    color: black;
+    background-color: yellow
+}
