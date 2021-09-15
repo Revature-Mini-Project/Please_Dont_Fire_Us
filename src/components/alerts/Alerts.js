@@ -14,7 +14,7 @@ export function Success() {
     const [playSuccess] = useSound(success);
     
     return(
-        <div >{playSuccess}
+        <div >
             <div class="alert alert-success d-flex align-items-center" role="alert">
                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                     <div>
@@ -35,7 +35,7 @@ export function Failure() {
     const [playFailure] = useSound(failure);
 
     return(
-        <div>{playFailure}
+        <div>
             <div class="alert alert-danger d-flex align-items-center" role="alert">
                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                     <div>
