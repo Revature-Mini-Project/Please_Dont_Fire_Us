@@ -1,19 +1,5 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -28,11 +14,87 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#circle {
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background-color: black;
+}
+#green {
+  width: 590px;
+  height: 590px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #006c21 100%, transparent 0%) 0 0;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#red {
+  width: 590px;
+  height: 590px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #931400 100%, transparent 0%) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#blue {
+  width: 590px;
+  height: 590px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #0c1d64 100%, transparent 0%) 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#yellow {
+  width: 590px;
+  height: 590px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #936700 100%, transparent 0%) 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#center {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.green-active {
+  background: linear-gradient(90deg, #21a649 100%, transparent 0%) 0 0 !important;
+  background-repeat: no-repeat !important;
+  background-size: 50% 50% !important;
+}
+.red-active {
+  background: linear-gradient(90deg, #e1452d 100%, transparent 0%) 100% 0 !important;
+  background-repeat: no-repeat !important;
+  background-size: 50% 50% !important;
+}
+.yellow-active {
+  background: linear-gradient(90deg, #e1ab2d 100%, transparent 0%) 0 100% !important;
+  background-repeat: no-repeat !important;
+  background-size: 50% 50% !important;
+}
+.blue-active {
+  background: linear-gradient(90deg, #2d4299 100%, transparent 0%) 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-size: 50% 50% !important;
 }
