@@ -11,7 +11,7 @@ const MAX = 30, MIN = 1;
 const getRandom = () => {
     let num = Math.floor(Math.random() * RESULTS);
     // In the edge case of Math.random returning a 1.0, ensures that a 4 will never be returned
-    return num == RESULTS ? RESULTS - 1 : num;
+    return num === RESULTS ? RESULTS - 1 : num;
 }
 
 // Returns a consistent sequence to be iterated through
@@ -41,12 +41,16 @@ const cast = (input = [0]) => {
         switch (input[x]) {
             case 0:
                 outputs[x] = ZERO;
+                break;
             case 1:
                 outputs[x] = ONE;
+                break;
             case 2:
                 outputs[x] = TWO;
+                break;
             case 3:
                 outputs[x] = THREE;
+                break;
             default:
                 outputs[x] = '';
         }
@@ -62,12 +66,16 @@ const uncast = (input = [ZERO]) => {
         switch (input[x]) {
             case ZERO:
                 outputs[x] = 0;
+                break;
             case ONE:
                 outputs[x] = 1;
+                break;
             case TWO:
                 outputs[x] = 2;
+                break;
             case THREE:
                 outputs[x] = 3;
+                break;
             default:
                 outputs[x] = -1
         }
