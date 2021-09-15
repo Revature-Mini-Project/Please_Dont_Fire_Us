@@ -2,7 +2,12 @@ import './App.css';
 
 import React, { useState } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
-import { Success, Failure } from "./components/alerts/Alerts";
+import useSound from 'use-sound';
+import green from './sounds/green.mp3';
+import red from './sounds/red.mp3';
+import blue from './sounds/blue.mp3';
+import yellow from './sounds/yellow.mp3';
+// import { Success, Failure } from "./components/alerts/Alerts";
 
 
 const TIME_LIT = 300, TIME_DIM = 30;
@@ -15,6 +20,12 @@ const TIME_LIT = 300, TIME_DIM = 30;
 function App() {
   const [activeButton, setActiveButton] = useState('');
   const [currentLevel, setCurrentLevel] = useState([RED]);
+
+  // const [playSound, setPlaySound] = useSound();
+  const [playGreen] = useSound(green);
+  const [playRed] = useSound(red);
+  const [playBlue] = useSound(blue);
+  const [playYellow] = useSound(yellow);
   // const [fullSet, setFullSet] = useState([RED]);  -- For implementation of custom sequences
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
@@ -23,7 +34,6 @@ function App() {
 
   const handleClick = (code) => {
     if (!playback) {
-      console.log(code);
       lightUp(code);
       setTimeout(() => dimAll(), TIME_LIT);
 
@@ -34,7 +44,7 @@ function App() {
 
       } else {
         // INCORRECT
-        Failure();
+        // Failure();
 
       }
     }
@@ -53,9 +63,33 @@ function App() {
 
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
-    // SOUNDS GO HERE
+    console.log('decoded');
+    playSound(code);
     setActiveButton(code);
   };
+
+  function playSound(code) {
+    switch(code) {
+      case 'green': 
+        console.log('green');
+        playGreen();
+        break;
+      case 'red':
+        console.log('red');
+        playRed();
+        break;
+      case 'blue': 
+        console.log('blue')
+        playBlue();
+        break;
+      case 'yellow':
+        console.log('yellow')
+        playYellow();
+        break;
+      default: 
+        console.log('something went wrong');
+    }
+  }
 
   // Dims all buttons
   const dimAll = () => {
