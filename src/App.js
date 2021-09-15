@@ -2,6 +2,8 @@ import './App.css';
 
 import React, { useState } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
+import { Directions } from './components/cards/TheGame';
+import { Title } from './components/title/Title';
 // import { Success, Failure } from './components/alerts/Alerts';
 
 const TIME_LIT = 300,
@@ -74,6 +76,8 @@ function App() {
 
   return (
     <div className='App'>
+      {/* <Title /> */}
+      <Directions />
       <main id='circle'>
         <section
           onClick={() => handleClick(GREEN)}
