@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+/* Font: https://fonts.google.com/specimen/Lato */
+/* Color Scheme: https://paletton.com/#uid=7060X0kpBsffQBRkSu-sNngv+iq */
+/* Reference Image: https://m.media-amazon.com/images/I/61OnA6pSo6L._AC_SX425_.jpg */
+/* Sector Positions: https://www.freecodecamp.org/news/how-to-center-anything-with-css-align-a-div-text-and-more/ */
+
 .App {
   text-align: center;
   background-color: #282c34;
@@ -14,10 +20,6 @@
   color: #61dafb;
 }
 
-/* Reference Image: https://m.media-amazon.com/images/I/61OnA6pSo6L._AC_SX425_.jpg */
-/* Color Scheme: https://paletton.com/#uid=7060X0kpBsffQBRkSu-sNngv+iq */
-/* Sector Shapes: https://stackoverflow.com/questions/21205652/how-to-draw-a-circle-sector-in-css */
-/* Sector Positions: https://www.freecodecamp.org/news/how-to-center-anything-with-css-align-a-div-text-and-more/ */
 #circle {
   width: 600px;
   height: 600px;
@@ -89,4 +91,19 @@
 }
 .blue-active {
   background-color: #2d4299 !important;
+}
+#start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 175px;
+  width: 175px;
+  border-radius: 50%;
+  border-width: 0;
+  font-size: larger;
+  color: white;
+  background-color: #5d2971;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
