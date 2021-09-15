@@ -1,7 +1,7 @@
 import './App.css';
 
 import React, { useState } from 'react';
-import { ZERO, ONE, TWO, THREE, getSequence } from './scripts/sequenceGen';
+import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 
 
 /**
@@ -10,18 +10,20 @@ import { ZERO, ONE, TWO, THREE, getSequence } from './scripts/sequenceGen';
  */
 function App() {
   const [activeButton, setActiveButton] = useState('');
-  const [currentLevel, setCurrentLevel] = useState([ZERO]);
+  const [currentLevel, setCurrentLevel] = useState([RED, RED, GREEN, YELLOW, BLUE, GREEN, RED, GREEN, YELLOW, YELLOW]);
   const [cursor, setCursor] = useState(-1);
   const [playback, setPlayback] = useState(false);
 
   const togglePlayback = () => setPlayback(previousState => !previousState);
 
   const handleClick = (code) => {
-    console.log(code);
-    lightUp(code);
-    setTimeout(() => dimAll(), 200);
+    if (!playback) {
+      console.log(code);
+      lightUp(code);
+      setTimeout(() => dimAll(), 200);
 
-    // Logic for comparison to go here, utilizing cursor to determine the correct button
+      // Logic for comparison to go here, utilizing cursor to determine the correct button
+    }
   }
 
   // Unless given a true value, gets one additional random value for the next level
@@ -40,35 +42,40 @@ function App() {
     setActiveButton('');
   }
 
+  
   // In theory, lights all buttons in the current level in order and then sets playback to false
   const handleRecite = async () => {
     if (playback) {
-      for (let i of currentLevel) {
-        await setTimeout(() => lightUp(i), 200)
-      }
-      togglePlayback();
+      await setTimeout(() => lightUp(currentLevel[cursor]), 200)
+      await setTimeout(() => dimAll(), 170)
     }
   }
-
 
   return (
     <div className='App'>
       <main id='circle'>
         <section
-          onClick={() => console.log('clicked green')}
+          onClick={() => handleClick(GREEN)}
+          className={activeButton === 'green' ? 'green-active' : null}
           id='green'
         ></section>
-        <section onClick={() => console.log('clicked red')} id='red'></section>
         <section
-          onClick={() => console.log('clicked yellow')}
+          onClick={() => handleClick(RED)}
+          className={activeButton === 'red' ? 'red-active' : null}
+          id='red'
+          ></section>
+        <section
+          onClick={() => handleClick(YELLOW)}
+          className={activeButton === 'yellow' ? 'yellow-active' : null}
           id='yellow'
         ></section>
         <section
-          onClick={() => console.log('clicked blue')}
+          onClick={() => handleClick(BLUE)}
+          className={activeButton === 'blue' ? 'blue-active' : null}
           id='blue'
         ></section>
         <section
-          onClick={() => console.log('clicked center')}
+          onClick={() => handleRecite()}
           id='center'
         ></section>
       </main>
