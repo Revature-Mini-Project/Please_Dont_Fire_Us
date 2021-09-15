@@ -48,7 +48,6 @@ function App() {
       sequence = getSequence(1);
     } else {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
-      console.log(currentLevel);
     }
     setCursor(0);
     setCurrentLevel(sequence);
