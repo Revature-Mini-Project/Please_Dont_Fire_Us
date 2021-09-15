@@ -32,8 +32,8 @@
   float: left;
   clear: left;
   position: relative;
-  top: 3%;
-  left: 3%;
+  top: 4%;
+  left: 4%;
 }
 #red {
   width: 45%;
@@ -43,8 +43,8 @@
   float: right;
   clear: right;
   position: relative;
-  top: 3%;
-  right: 3%;
+  top: 4%;
+  right: 4%;
 }
 #blue {
   width: 45%;
@@ -55,7 +55,7 @@
   clear: right;
   position: relative;
   top: 6%;
-  right: 3%;
+  right: 4%;
 }
 #yellow {
   width: 45%;
@@ -66,7 +66,7 @@
   clear: left;
   position: relative;
   top: 6%;
-  left: 3%;
+  left: 4%;
 }
 #center {
   width: 280px;

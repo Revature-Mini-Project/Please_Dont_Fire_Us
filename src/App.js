@@ -3,6 +3,8 @@ import './App.css';
 import React, { useState } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 
+const TIME_LIT = 300, TIME_DIM = 30;
+
 
 /**
  * 
@@ -11,18 +13,27 @@ import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 function App() {
   const [activeButton, setActiveButton] = useState('');
   const [currentLevel, setCurrentLevel] = useState([RED, RED, GREEN, YELLOW, BLUE, GREEN, RED, GREEN, YELLOW, YELLOW]);
-  const [cursor, setCursor] = useState(-1);
+  const [fullSet, setFullSet] = useState([RED]);
+  const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
 
   const togglePlayback = () => setPlayback(previousState => !previousState);
+  const increaseCursor = () => setCursor(previousState => previousState + 1);
 
   const handleClick = (code) => {
     if (!playback) {
       console.log(code);
       lightUp(code);
-      setTimeout(() => dimAll(), 200);
+      setTimeout(() => dimAll(), TIME_LIT);
 
-      // Logic for comparison to go here, utilizing cursor to determine the correct button
+      if (code === currentLevel[cursor]) {
+        // CORRECT
+        increaseCursor();
+
+      } else {
+        // INCORRECT
+
+      }
     }
   }
 
@@ -44,11 +55,20 @@ function App() {
 
   
   // In theory, lights all buttons in the current level in order and then sets playback to false
-  const handleRecite = async () => {
-    if (playback) {
-      await setTimeout(() => lightUp(currentLevel[cursor]), 200)
-      await setTimeout(() => dimAll(), 170)
-    }
+  const handleRecite = () => {
+    let recCursor = 0;
+    console.log('Reciting!');
+    // if (playback) {
+      const interval = setInterval(() => {
+        console.log(`Lighting ${currentLevel[recCursor]} at position ${recCursor}`);
+        lightUp(currentLevel[recCursor])
+        recCursor++;
+        if (recCursor >= currentLevel.length) {
+          clearInterval(interval)
+        };
+        setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
+      }, TIME_LIT);
+    // }
   }
 
   return (
