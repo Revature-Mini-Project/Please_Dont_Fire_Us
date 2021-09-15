@@ -1,5 +1,10 @@
 
-
+/**
+ *  created by Mat Terry
+ *  Resources:
+ *      Bootstrap: https://getbootstrap.com/docs/5.1/components/alerts/
+ * @returns 
+ */
 export function Success() {
     return(
         <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -11,6 +16,12 @@ export function Success() {
     )
 }
 
+/**
+ *  created by Mat Terry
+ *  Resources:
+ *      Bootstrap: https://getbootstrap.com/docs/5.1/components/alerts/
+ * @returns 
+ */
 export function Failure() {
     return(
         <div class="alert alert-danger d-flex align-items-center" role="alert">
