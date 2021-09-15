@@ -14,6 +14,10 @@
   color: #61dafb;
 }
 
+/* Reference Image: https://m.media-amazon.com/images/I/61OnA6pSo6L._AC_SX425_.jpg */
+/* Color Scheme: https://paletton.com/#uid=7060X0kpBsffQBRkSu-sNngv+iq */
+/* Sector Shapes: https://stackoverflow.com/questions/21205652/how-to-draw-a-circle-sector-in-css */
+/* Sector Positions: https://www.freecodecamp.org/news/how-to-center-anything-with-css-align-a-div-text-and-more/ */
 #circle {
   width: 600px;
   height: 600px;
@@ -69,8 +73,8 @@
   transform: translate(-50%, -50%);
 }
 #center {
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
   background-color: black;
   position: absolute;
