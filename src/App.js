@@ -1,5 +1,9 @@
 import './App.css';
 
+/**
+ * 
+ * @returns 
+ */
 function App() {
   return (
     <div className='App'>
