@@ -69,6 +69,7 @@ function App() {
   // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = (sequence = currentLevel) => {
     let recCursor = 0;
+    setPlayback(true);
     const interval = setInterval(() => {
       lightUp(sequence[recCursor])
       recCursor++;
