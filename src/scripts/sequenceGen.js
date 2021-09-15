@@ -11,13 +11,17 @@ const MAX = 30, MIN = 1;
 const getRandom = () => {
     let num = Math.floor(Math.random() * RESULTS);
     // In the edge case of Math.random returning a 1.0, ensures that a 4 will never be returned
-    return num == RESULTS ? RESULTS - 1 : num;
+    return num === RESULTS ? RESULTS - 1 : num;
 }
 
 // Returns a consistent sequence to be iterated through
 //  Any excess inputs will be ignored; any excess length will be randomized
 //  Accepts an optional int and an optional array of strings
 //  Returns an array of strings
+/**
+ * Takes in an optional int, and an optional array of strings
+ * @returns an array of strings
+ */
 export const getSequence = (length = 6, inputs = [RED]) => {
     inputs = uncast(inputs);
     if (length < MIN) length = MIN; // Defaults to 1 in the event of a negative length

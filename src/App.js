@@ -12,12 +12,11 @@ const TIME_LIT = 300, TIME_DIM = 30;
  */
 function App() {
   const [activeButton, setActiveButton] = useState('');
-  const [currentLevel, setCurrentLevel] = useState([RED, RED, GREEN, YELLOW, BLUE, GREEN, RED, GREEN, YELLOW, YELLOW]);
-  const [fullSet, setFullSet] = useState([RED]);
+  const [currentLevel, setCurrentLevel] = useState([RED]);
+  // const [fullSet, setFullSet] = useState([RED]);  -- For implementation of custom sequences
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
 
-  const togglePlayback = () => setPlayback(previousState => !previousState);
   const increaseCursor = () => setCursor(previousState => previousState + 1);
 
   const handleClick = (code) => {
@@ -29,6 +28,7 @@ function App() {
       if (code === currentLevel[cursor]) {
         // CORRECT
         increaseCursor();
+        nextRound();
 
       } else {
         // INCORRECT
@@ -39,12 +39,18 @@ function App() {
 
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
-    setCurrentLevel(getSequence(currentLevel.length + 1, firstRound ? [''] : currentLevel));
+    if (firstRound) {
+      setCurrentLevel(getSequence(1));
+    } else {
+      setCurrentLevel(getSequence(currentLevel.length + 1, currentLevel));
+    }
     setCursor(0);
+    handleRecite();
   }
 
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
+    // SOUNDS GO HERE
     setActiveButton(code);
   }
 
@@ -54,21 +60,18 @@ function App() {
   }
 
   
-  // In theory, lights all buttons in the current level in order and then sets playback to false
+  // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = () => {
     let recCursor = 0;
-    console.log('Reciting!');
-    // if (playback) {
-      const interval = setInterval(() => {
-        console.log(`Lighting ${currentLevel[recCursor]} at position ${recCursor}`);
-        lightUp(currentLevel[recCursor])
-        recCursor++;
-        if (recCursor >= currentLevel.length) {
-          clearInterval(interval)
-        };
-        setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
-      }, TIME_LIT);
-    // }
+    const interval = setInterval(() => {
+      lightUp(currentLevel[recCursor])
+      recCursor++;
+      if (recCursor >= currentLevel.length) {
+        clearInterval(interval)
+        setPlayback(false);
+      };
+      setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
+    }, TIME_LIT);
   }
 
   return (
@@ -95,7 +98,7 @@ function App() {
           id='blue'
         ></section>
         <section
-          onClick={() => handleRecite()}
+          onClick={null}
           id='center'
         ></section>
       </main>
