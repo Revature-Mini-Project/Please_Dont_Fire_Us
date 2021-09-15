@@ -2,6 +2,8 @@ import './App.css';
 
 import React, { useState } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
+import { Success, Failure } from "./components/alerts/Alerts";
+
 
 const TIME_LIT = 300, TIME_DIM = 30;
 
@@ -32,6 +34,7 @@ function App() {
 
       } else {
         // INCORRECT
+
 
       }
     }
