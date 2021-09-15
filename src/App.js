@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
@@ -24,14 +24,17 @@ function App() {
 
   const handleClick = (code) => {
     if (!playback) {
-      console.log(code);
       lightUp(code);
       setTimeout(() => dimAll(), TIME_LIT);
 
       if (code === currentLevel[cursor]) {
         // CORRECT
         increaseCursor();
-        nextRound();
+
+        if (cursor === currentLevel.length - 1) {
+          nextRound();
+        }
+
       } else {
         // INCORRECT
       }
@@ -40,14 +43,17 @@ function App() {
 
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
+    let sequence = [''];
     if (firstRound) {
-      setCurrentLevel(getSequence(1));
+      sequence = getSequence(1);
     } else {
-      setCurrentLevel(getSequence(currentLevel.length + 1, currentLevel));
+      sequence = getSequence(currentLevel.length + 1, currentLevel);
+      console.log(currentLevel);
     }
     setCursor(0);
-    handleRecite();
-  };
+    setCurrentLevel(sequence);
+    setTimeout(() => handleRecite(sequence), 400);
+  }
 
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
@@ -61,13 +67,13 @@ function App() {
   };
 
   // Lights all buttons in the current level in order and then sets playback to false
-  const handleRecite = () => {
+  const handleRecite = (sequence = currentLevel) => {
     let recCursor = 0;
     const interval = setInterval(() => {
-      lightUp(currentLevel[recCursor]);
+      lightUp(sequence[recCursor])
       recCursor++;
-      if (recCursor >= currentLevel.length) {
-        clearInterval(interval);
+      if (recCursor > sequence.length) {
+        clearInterval(interval)
         setPlayback(false);
       }
       setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
