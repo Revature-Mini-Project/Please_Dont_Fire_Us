@@ -2,7 +2,7 @@
 const RESULTS = 4;
 
 // Constants for the return strings
-export const ZERO = 'red', ONE = 'green', TWO = 'blue', THREE = 'yellow';
+export const RED = 'red', GREEN = 'green', BLUE = 'blue', YELLOW = 'yellow';
 
 // Constants for the max/min length of the return array
 const MAX = 30, MIN = 1;
@@ -18,7 +18,7 @@ const getRandom = () => {
 //  Any excess inputs will be ignored; any excess length will be randomized
 //  Accepts an optional int and an optional array of strings
 //  Returns an array of strings
-export const getSequence = (length = 6, inputs = [ZERO]) => {
+export const getSequence = (length = 6, inputs = [RED]) => {
     inputs = uncast(inputs);
     if (length < MIN) length = MIN; // Defaults to 1 in the event of a negative length
     if (length > MAX) length = MAX; // Defaults to 30 in the event of an excessive length
@@ -40,13 +40,17 @@ const cast = (input = [0]) => {
     for (let x in input) {
         switch (input[x]) {
             case 0:
-                outputs[x] = ZERO;
+                outputs[x] = RED;
+                break;
             case 1:
-                outputs[x] = ONE;
+                outputs[x] = GREEN;
+                break;
             case 2:
-                outputs[x] = TWO;
+                outputs[x] = BLUE;
+                break;
             case 3:
-                outputs[x] = THREE;
+                outputs[x] = YELLOW;
+                break;
             default:
                 outputs[x] = '';
         }
@@ -56,18 +60,22 @@ const cast = (input = [0]) => {
 }
 
 // Casts inputs from strings to numerals
-const uncast = (input = [ZERO]) => {
+const uncast = (input = [RED]) => {
     let outputs = [0];
     for (let x in input) {
         switch (input[x]) {
-            case ZERO:
+            case RED:
                 outputs[x] = 0;
-            case ONE:
+                break;
+            case GREEN:
                 outputs[x] = 1;
-            case TWO:
+                break;
+            case BLUE:
                 outputs[x] = 2;
-            case THREE:
+                break;
+            case YELLOW:
                 outputs[x] = 3;
+                break;
             default:
                 outputs[x] = -1
         }
