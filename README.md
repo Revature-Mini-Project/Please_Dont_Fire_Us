@@ -1,14 +1,15 @@
 # Simon Game
 
-<div>
-<img align="center" alt="Sonar Cloud" src="https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg" />
-</div>
-
-<img align="center" alt="Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=alert_status" />
-<img align="center" alt="Bugs" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=bugs" />
-<img align="center" alt="Line of Code" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=ncloc" />
-<img align="center" alt="Security" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=security_rating" />
-<img align="center" alt="Vulnerabilities" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=vulnerabilities" />
+<p align="center">
+<img alt="Sonar Cloud" src="https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg" />
+</p>
+<p align="center">
+<img alt="Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=alert_status" />
+<img alt="Bugs" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=bugs" />
+<img alt="Line of Code" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=ncloc" />
+<img alt="Security" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=security_rating" />
+<img alt="Vulnerabilities" src="https://sonarcloud.io/api/project_badges/measure?project=Revature-Mini-Project_Please_Dont_Fire_Us&metric=vulnerabilities" />
+</p>
 
 <br />
 <br />
