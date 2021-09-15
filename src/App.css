@@ -25,52 +25,48 @@
   background-color: black;
 }
 #green {
-  width: 590px;
-  height: 590px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #006c21 100%, transparent 0%) 0 0;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 45%;
+  height: 45%;
+  border-top-left-radius: 100%;
+  background-color: #006c21;
+  float: left;
+  clear: left;
+  position: relative;
+  top: 3%;
+  left: 3%;
 }
 #red {
-  width: 590px;
-  height: 590px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #931400 100%, transparent 0%) 100% 0;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 45%;
+  height: 45%;
+  border-top-right-radius: 100%;
+  background-color: #931400;
+  float: right;
+  clear: right;
+  position: relative;
+  top: 3%;
+  right: 3%;
 }
 #blue {
-  width: 590px;
-  height: 590px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #0c1d64 100%, transparent 0%) 100% 100%;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 45%;
+  height: 45%;
+  border-bottom-right-radius: 100%;
+  background-color: #0c1d64;
+  float: right;
+  clear: right;
+  position: relative;
+  top: 6%;
+  right: 3%;
 }
 #yellow {
-  width: 590px;
-  height: 590px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #936700 100%, transparent 0%) 0% 100%;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 45%;
+  height: 45%;
+  border-bottom-left-radius: 100%;
+  background-color: #936700;
+  float: left;
+  clear: left;
+  position: relative;
+  top: 6%;
+  left: 3%;
 }
 #center {
   width: 280px;
@@ -83,22 +79,14 @@
   transform: translate(-50%, -50%);
 }
 .green-active {
-  background: linear-gradient(90deg, #21a649 100%, transparent 0%) 0 0 !important;
-  background-repeat: no-repeat !important;
-  background-size: 50% 50% !important;
+  background-color: #21a649 !important;
 }
 .red-active {
-  background: linear-gradient(90deg, #e1452d 100%, transparent 0%) 100% 0 !important;
-  background-repeat: no-repeat !important;
-  background-size: 50% 50% !important;
+  background-color: #e1452d !important;
 }
 .yellow-active {
-  background: linear-gradient(90deg, #e1ab2d 100%, transparent 0%) 0 100% !important;
-  background-repeat: no-repeat !important;
-  background-size: 50% 50% !important;
+  background-color: #e1ab2d !important;
 }
 .blue-active {
-  background: linear-gradient(90deg, #2d4299 100%, transparent 0%) 100% 100% !important;
-  background-repeat: no-repeat !important;
-  background-size: 50% 50% !important;
+  background-color: #2d4299 !important;
 }
