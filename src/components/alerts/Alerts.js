@@ -1,4 +1,6 @@
 import useSound from "use-sound";
+import React from "react";
+import { Alert } from "reactstrap";
 // sounds
 import success from '../../sounds/success.mp3';
 import failure from '../../sounds/failure.mp3';
@@ -7,20 +9,14 @@ import failure from '../../sounds/failure.mp3';
 /**
  *  created by Mat Terry
  *  Resources:
- *      Bootstrap: https://getbootstrap.com/docs/5.1/components/alerts/
+ *      reactstrap: https://reactstrap.github.io/components/alerts/
  * @returns 
  */
-export function Success() {
-    const [playSuccess] = useSound(success);
+export const Success = () => {
     
     return(
-        <div >
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-                    <div>
-                        Congratulations! You're a winner!!
-                    </div>
-            </div>
+        <div>
+            <Alert color="success">Congratulations! You're a winner!!</Alert>
         </div>
     )
 }
@@ -28,20 +24,13 @@ export function Success() {
 /**
  *  created by Mat Terry
  *  Resources:
- *      Bootstrap: https://getbootstrap.com/docs/5.1/components/alerts/
+ *      reactstrap: https://reactstrap.github.io/components/alerts/
  * @returns 
  */
-export function Failure() {
-    const [playFailure] = useSound(failure);
-
+export const Failure = () => {
     return(
         <div>
-            <div class="alert alert-danger d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                    <div>
-                        Oh No! You're a failure! :(
-                    </div>
-            </div>
+            <Alert color="danger">Oh no! You're a failure!</Alert>
         </div>
     );
 }
