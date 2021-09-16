@@ -1,12 +1,13 @@
 import './App.css';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import useSound from 'use-sound';
-import green from './sounds/green.mp3';
-import red from './sounds/red.mp3';
-import blue from './sounds/blue.mp3';
-import yellow from './sounds/yellow.mp3';
+import green from './sounds/greenShort.mp3';
+import red from './sounds/redShort.mp3';
+import blue from './sounds/blueShort.mp3';
+import yellow from './sounds/yellowShort.mp3';
+
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
@@ -21,13 +22,19 @@ const TIME_LIT = 300,
  */
 function App() {
   const [activeButton, setActiveButton] = useState('');
-  const [currentLevel, setCurrentLevel] = useState([RED]);
-
+  const [currentLevel, setCurrentLevel] = useState(['']);
+  const [dimTimeout, setCurrentDimTimeout] = useState(0);
   // const [playSound, setPlaySound] = useSound();
-  const [playGreen] = useSound(green);
-  const [playRed] = useSound(red);
-  const [playBlue] = useSound(blue);
-  const [playYellow] = useSound(yellow);
+  const [playGreen, greenSound] = useSound(green, {interrupt: true, volume: 0.5});
+  const [playRed, redSound] = useSound(red, {interrupt: true, volume: 0.5});
+  const [playBlue, blueSound] = useSound(blue, {interrupt: true, volume: 0.5});
+  const [playYellow, yellowSound] = useSound(yellow, {interrupt: true, volume: 0.5});
+  const stopAll = () => {
+    greenSound.stop();
+    redSound.stop();
+    blueSound.stop();
+    yellowSound.stop();
+  }
   // const [fullSet, setFullSet] = useState([RED]);  -- For implementation of custom sequences
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
@@ -37,16 +44,22 @@ function App() {
   const handleClick = (code) => {
     if (!playback) {
       lightUp(code);
-      setTimeout(() => dimAll(), TIME_LIT);
-
+      if (dimTimeout) {
+        clearTimeout(dimTimeout);
+      }
+      setCurrentDimTimeout(setTimeout(() => dimAll(), TIME_LIT));
+      
+      
       if (code === currentLevel[cursor]) {
         // CORRECT
         increaseCursor();
 
         if (cursor === currentLevel.length - 1) {
+          // LEVEL COMPLETE
           nextRound();
         }
-      } else {
+
+      } else if (currentLevel[0] !== '') {
         // INCORRECT
         // Failure();
       }
@@ -82,6 +95,7 @@ function App() {
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
     console.log('decoded');
+    stopAll();
     playSound(code);
     setActiveButton(code);
   };
@@ -112,7 +126,8 @@ function App() {
   // Dims all buttons
   const dimAll = () => {
     setActiveButton('');
-  };
+    stopAll();
+  }
 
   // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = (sequence = currentLevel) => {
