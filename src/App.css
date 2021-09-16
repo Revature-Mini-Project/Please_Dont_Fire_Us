@@ -100,7 +100,7 @@
   border-radius: 50%;
   border-width: 0;
   font-size: 28pt;
-  color: white;
+  color: #e3f2fd;
   background-color: #5d2971;
   font-family: 'Lato', sans-serif;
   font-weight: 300;
@@ -126,11 +126,30 @@ nav {
   background-color: #e3f2fd;
 }
 #scoreboard {
-  position: absolute;
-  width: 20rem;
+  left: auto;
   right: 0;
-  top: 0;
-  font-size: 14pt;
-  min-height: 100vh;
-  z-index: 49;
+  z-index: 51;
+  background-color: #282c34;
+  color: #e3f2fd;
+  border-width: 0 !important;
+}
+
+dl {
+  width: 100%;
+}
+
+dt {
+  float: left;
+  clear: left;
+  width: 25%;
+  font-weight: bold;
+}
+
+dt::after {
+  content: ':';
+}
+
+dd {
+  margin: 0 0 0 80px;
+  padding: 0 0 0.5em 0;
 }

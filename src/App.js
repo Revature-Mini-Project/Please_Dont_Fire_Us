@@ -244,7 +244,7 @@ function App() {
           </button>
         </section>
       </main>
-      <Scoreboard />
+      <Scoreboard level={currentLevel.length} />
     </div>
   );
 }
