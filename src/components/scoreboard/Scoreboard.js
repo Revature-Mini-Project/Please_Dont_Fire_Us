@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function Scoreboard(props) {
   return (
     <div>
@@ -6,6 +8,8 @@ export function Scoreboard(props) {
           <dl>
             <dt>Level</dt>
             <dl id='score-level'>{props.level}</dl>
+            <dt>Time</dt>
+            <dl id='time-elapsed'>{props.time}</dl>
           </dl>
         </div>
       </div>
