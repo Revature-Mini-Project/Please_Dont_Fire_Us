@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import useSound from 'use-sound';
 import green from './sounds/greenShort.mp3';
@@ -48,8 +48,12 @@ function App() {
   const [playRecord, setPlayRecord] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
-  const [startTime, setStartTime] = useState(0);
-  const [playTime, setPlayTime] = useState(0);
+  const [playTime, setPlayTime] = useState(0); //keeps track of time for timer
+  let timeInterval = useRef(null); //used to refer to interval for clearing
+  let timeCounter = 0; //needs to be declared here for some reason?
+  const timerIntervalFn = () => {
+    setPlayTime(() => ++timeCounter / 2); //this is dark magic; don't ask
+  };
 
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
@@ -204,15 +208,9 @@ function App() {
           <button
             id='start'
             onClick={() => {
+              clearInterval(timeInterval.current);
               nextRound(true);
-              setStartTime(
-                performance.now(),
-                setInterval(() => {
-                  setPlayTime(
-                    parseInt((performance.now() - startTime) / 1000).toString()
-                  );
-                }, 500)
-              );
+              timeInterval.current = setInterval(timerIntervalFn, 1000);
             }}
           >
             START
