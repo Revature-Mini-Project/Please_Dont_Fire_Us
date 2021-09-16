@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import useSound from 'use-sound';
 import green from './sounds/greenShort.mp3';
@@ -13,7 +13,7 @@ import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
-import registerKeyInputListeners from "./input/KeyboardInput";
+import registerKeyInputListeners from './input/KeyboardInput';
 const TIME_LIT = 300,
   TIME_DIM = 30,
   VICTORY = 10;
@@ -26,22 +26,38 @@ function App() {
   const [activeButton, setActiveButton] = useState(['']);
   const [currentLevel, setCurrentLevel] = useState(['']);
   const [dimTimeout, setCurrentDimTimeout] = useState(0);
-  const [playGreen, greenSound] = useSound(green, {interrupt: true, volume: 0.5});
-  const [playRed, redSound] = useSound(red, {interrupt: true, volume: 0.5});
-  const [playBlue, blueSound] = useSound(blue, {interrupt: true, volume: 0.5});
-  const [playYellow, yellowSound] = useSound(yellow, {interrupt: true, volume: 0.5});
+  const [playGreen, greenSound] = useSound(green, {
+    interrupt: true,
+    volume: 0.5
+  });
+  const [playRed, redSound] = useSound(red, { interrupt: true, volume: 0.5 });
+  const [playBlue, blueSound] = useSound(blue, {
+    interrupt: true,
+    volume: 0.5
+  });
+  const [playYellow, yellowSound] = useSound(yellow, {
+    interrupt: true,
+    volume: 0.5
+  });
   const stopAll = () => {
     greenSound.stop();
     redSound.stop();
     blueSound.stop();
     yellowSound.stop();
-  }
+  };
   const [fullSet, setFullSet] = useState(['']);
   const [recording, setRecording] = useState(false);
   const [playRecord, setPlayRecord] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
   const [shouldConfetti, setShouldConfetti] = useState(false);
+  const [playTime, setPlayTime] = useState(0); //keeps track of time for timer
+  let timeInterval = useRef(null); //used to refer to interval for clearing
+  let timeCounter = 0; //needs to be declared here for some reason?
+  const timerIntervalFn = () => {
+    setPlayTime(() => ++timeCounter / 2); //this is dark magic; don't ask
+  };
+
 
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
@@ -53,7 +69,7 @@ function App() {
     }
 
     setRecording((previousState) => !previousState);
-  }
+  };
 
   const handleClick = (code) => {
     if (!playback) {
@@ -62,7 +78,7 @@ function App() {
         clearTimeout(dimTimeout);
       }
       setCurrentDimTimeout(setTimeout(() => dimAll(), TIME_LIT));
-      
+
       // If in normal gameplay...
       if (!recording) {
         if (code === currentLevel[cursor]) {
@@ -82,7 +98,6 @@ function App() {
               nextRound();
             }
           }
-
         } else if (currentLevel[0] !== '') {
           // INCORRECT
           // Failure();
@@ -129,18 +144,16 @@ function App() {
   }
   
   let keyControls;
-  
+
   useEffect(() => {
-    
     keyControls = registerKeyInputListeners(
-      ["7", () => handleClick(GREEN)],
-      ["9", () => handleClick(RED)],
-      ["1", () => handleClick(YELLOW)],
-      ["3", () => handleClick(BLUE)]
+      ['7', () => handleClick(GREEN)],
+      ['9', () => handleClick(RED)],
+      ['1', () => handleClick(YELLOW)],
+      ['3', () => handleClick(BLUE)]
     );
-    
   }, []);
-  
+
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
@@ -150,8 +163,9 @@ function App() {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
     } else {
       // Only plays if currently playing back a custom sequence
-      firstRound ? sequence = [fullSet[0]] :
-          sequence = [...currentLevel, fullSet[currentLevel.length]]
+      firstRound
+        ? (sequence = [fullSet[0]])
+        : (sequence = [...currentLevel, fullSet[currentLevel.length]]);
     }
     setShouldConfetti(false);
     setCursor(0);
@@ -203,7 +217,7 @@ function App() {
   const dimAll = () => {
     setActiveButton(['']);
     stopAll();
-  }
+  };
 
   // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = (sequence = currentLevel) => {
@@ -256,12 +270,19 @@ function App() {
           id='blue'
         ></section>
         <section onClick={null} id='center'>
-          <button id='start' onClick={() => nextRound(true)}>
+          <button
+            id='start'
+            onClick={() => {
+              clearInterval(timeInterval.current);
+              nextRound(true);
+              timeInterval.current = setInterval(timerIntervalFn, 1000);
+            }}
+          >
             START
           </button>
         </section>
       </main>
-      <Scoreboard level={currentLevel.length} />
+      <Scoreboard level={currentLevel.length} time={playTime} />
     </div>
   );
 }
