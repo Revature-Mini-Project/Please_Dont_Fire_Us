@@ -7,12 +7,11 @@ import green from './sounds/green.mp3';
 import red from './sounds/red.mp3';
 import blue from './sounds/blue.mp3';
 import yellow from './sounds/yellow.mp3';
-
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
-
+import registerKeyInputListeners from "./input/KeyboardInput";
 const TIME_LIT = 300,
   TIME_DIM = 30;
 
@@ -53,7 +52,20 @@ function App() {
       }
     }
   };
-
+  
+  let keyControls;
+  
+  useEffect(() => {
+    
+    keyControls = registerKeyInputListeners(
+      ["7", () => handleClick(GREEN)],
+      ["9", () => handleClick(RED)],
+      ["1", () => handleClick(YELLOW)],
+      ["3", () => handleClick(BLUE)]
+    );
+    
+  }, []);
+  
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
