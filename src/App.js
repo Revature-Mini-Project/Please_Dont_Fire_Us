@@ -43,6 +43,8 @@ function App() {
   const [playback, setPlayback] = useState(false);
   const [shouldConfetti, setShouldConfetti] = useState(false);
 
+  const [handlePress, setHandlePress] = useState('');
+
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
   const toggleRecord = () => {
@@ -133,13 +135,20 @@ function App() {
   useEffect(() => {
     
     keyControls = registerKeyInputListeners(
-      ["7", () => handleClick(GREEN)],
-      ["9", () => handleClick(RED)],
-      ["1", () => handleClick(YELLOW)],
-      ["3", () => handleClick(BLUE)]
+      ["7", () => setHandlePress(GREEN)],
+      ["9", () => setHandlePress(RED)],
+      ["1", () => setHandlePress(YELLOW)],
+      ["3", () => setHandlePress(BLUE)]
     );
     
   }, []);
+
+  useEffect(() => {
+    if (handlePress !== '') {
+      handleClick(handlePress);
+      setHandlePress('');
+    }
+  }, [handlePress]);
   
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
@@ -179,23 +188,23 @@ function App() {
   function playSound(code) {
     switch (code) {
       case 'green':
-        console.log('green');
+        // console.log('green');
         playGreen();
         break;
       case 'red':
-        console.log('red');
+        // console.log('red');
         playRed();
         break;
       case 'blue':
-        console.log('blue');
+        // console.log('blue');
         playBlue();
         break;
       case 'yellow':
-        console.log('yellow');
+        // console.log('yellow');
         playYellow();
         break;
       default:
-        console.log('something went wrong');
+        console.log(`Invalid sound request: received code ${code}.`);
     }
   }
 
