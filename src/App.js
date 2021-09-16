@@ -14,14 +14,15 @@ import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
 import registerKeyInputListeners from "./input/KeyboardInput";
 const TIME_LIT = 300,
-  TIME_DIM = 30;
+  TIME_DIM = 30,
+  VICTORY = 10;
 
 /**
  *
  * @returns
  */
 function App() {
-  const [activeButton, setActiveButton] = useState('');
+  const [activeButton, setActiveButton] = useState(['']);
   const [currentLevel, setCurrentLevel] = useState(['']);
   const [dimTimeout, setCurrentDimTimeout] = useState(0);
   const [playGreen, greenSound] = useSound(green, {interrupt: true, volume: 0.5});
@@ -68,12 +69,22 @@ function App() {
 
           if (cursor === currentLevel.length - 1) {
             // LEVEL COMPLETE
-            nextRound();
+
+            if ((!playRecord && currentLevel.length >= VICTORY) || (playRecord && currentLevel.length === fullSet.length)) {
+              // Game complete
+              setCurrentLevel(['']);
+              victoryFanfareLights();
+            } else {
+              // Moving on to next level
+              nextRound();
+            }
           }
 
         } else if (currentLevel[0] !== '') {
           // INCORRECT
           // Failure();
+          defeatFanfareLights(currentLevel[cursor]);
+          setCurrentLevel(['']);
         }
       } else {
         // If currently recording...
@@ -83,6 +94,36 @@ function App() {
       }
     }
   };
+
+  const victoryFanfareLights = () => {
+    let toggle = false, iterations = 0;
+    setPlayback(true);
+    const interval = setInterval(() => {
+      lightMult(toggle ? [RED, YELLOW] : [BLUE, GREEN]);
+      toggle = !toggle;
+      iterations++;
+      if (iterations > 8) {
+        clearInterval(interval);
+        setPlayback(false);
+        dimAll();
+      }
+    }, TIME_LIT);
+  }
+
+  const defeatFanfareLights = (code) => {
+    let toggle = false, iterations = 0;
+    setPlayback(true);
+    const interval = setInterval(() => {
+      lightMult(toggle ? [code] : ['']);
+      toggle = !toggle;
+      iterations++;
+      if (iterations > 8) {
+        clearInterval(interval);
+        setPlayback(false);
+        dimAll();
+      }
+    }, TIME_LIT);
+  }
   
   let keyControls;
   
@@ -119,8 +160,12 @@ function App() {
     console.log('decoded');
     stopAll();
     playSound(code);
-    setActiveButton(code);
+    setActiveButton([code]);
   };
+
+  const lightMult = (code) => {
+    setActiveButton(code)
+  }
 
   function playSound(code) {
     switch (code) {
@@ -147,7 +192,7 @@ function App() {
 
   // Dims all buttons
   const dimAll = () => {
-    setActiveButton('');
+    setActiveButton(['']);
     stopAll();
   }
 
@@ -173,22 +218,22 @@ function App() {
       <main id='circle'>
         <section
           onClick={() => handleClick(GREEN)}
-          className={activeButton === 'green' ? 'green-active' : null}
+          className={activeButton.includes('green') ? 'green-active' : null}
           id='green'
         ></section>
         <section
           onClick={() => handleClick(RED)}
-          className={activeButton === 'red' ? 'red-active' : null}
+          className={activeButton.includes('red') ? 'red-active' : null}
           id='red'
         ></section>
         <section
           onClick={() => handleClick(YELLOW)}
-          className={activeButton === 'yellow' ? 'yellow-active' : null}
+          className={activeButton.includes('yellow') ? 'yellow-active' : null}
           id='yellow'
         ></section>
         <section
           onClick={() => handleClick(BLUE)}
-          className={activeButton === 'blue' ? 'blue-active' : null}
+          className={activeButton.includes('blue') ? 'blue-active' : null}
           id='blue'
         ></section>
         <section onClick={null} id='center'>
