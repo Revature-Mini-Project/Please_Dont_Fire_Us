@@ -5,7 +5,7 @@ const RESULTS = 4;
 export const RED = 'red', GREEN = 'green', BLUE = 'blue', YELLOW = 'yellow';
 
 // Constants for the max/min length of the return array
-const MAX = 30, MIN = 1;
+const MAX = 50, MIN = 1;
 
 // Grabs a single random number from 0-RESULTS
 const getRandom = () => {
@@ -23,7 +23,7 @@ const getRandom = () => {
 export const getSequence = (length = 6, inputs = []) => {
     inputs = uncast(inputs);
     if (length < MIN) length = MIN; // Defaults to 1 in the event of a negative length
-    if (length > MAX) length = MAX; // Defaults to 30 in the event of an excessive length
+    if (length > MAX) length = MAX; // Defaults to 50 in the event of an excessive length
     for (let i = 0; i < length; i++) {
         if (!inputs[i] || inputs[i] > RESULTS || inputs[i] < 0) {
             inputs[i] = getRandom();

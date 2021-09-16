@@ -41,6 +41,7 @@ function App() {
   const [playRecord, setPlayRecord] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
+  const [shouldConfetti, setShouldConfetti] = useState(false);
 
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
@@ -75,6 +76,7 @@ function App() {
               // Game complete
               setCurrentLevel(['']);
               victoryFanfareLights();
+              setShouldConfetti(true);
             } else {
               // Moving on to next level
               nextRound();
@@ -151,16 +153,21 @@ function App() {
       firstRound ? sequence = [fullSet[0]] :
           sequence = [...currentLevel, fullSet[currentLevel.length]]
     }
+    setShouldConfetti(false);
     setCursor(0);
     setCurrentLevel(sequence);
     setTimeout(() => handleRecite(sequence), 400);
   };
 
   // Sets one button as lit; only one can be lit at a time by this
+  /** 
+  * Lights up one or more lights, playing sound on the first.
+  * Takes in an array.
+  */
   const lightUp = (code) => {
     console.log('decoded');
     stopAll();
-    playSound(code);
+    playSound(code[0]);
     setActiveButton(code);
   };
 
@@ -213,9 +220,19 @@ function App() {
     }, TIME_LIT);
   };
 
+  const MaybeConfetti = () => {
+    if (shouldConfetti) {
+      return (
+        <Confetti initialVelocityY={-30} />
+      )
+    } else {
+      return (null)
+    }
+  }
+
   return (
     <div className='App'>
-      <Confetti />
+      <MaybeConfetti />
       <Directions />
       <main id='circle'>
         <section
