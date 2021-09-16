@@ -21,7 +21,6 @@ function App() {
   const [activeButton, setActiveButton] = useState('');
   const [currentLevel, setCurrentLevel] = useState(['']);
   const [dimTimeout, setCurrentDimTimeout] = useState(0);
-  // const [playSound, setPlaySound] = useSound();
   const [playGreen, greenSound] = useSound(green, {interrupt: true, volume: 0.5});
   const [playRed, redSound] = useSound(red, {interrupt: true, volume: 0.5});
   const [playBlue, blueSound] = useSound(blue, {interrupt: true, volume: 0.5});
@@ -32,11 +31,23 @@ function App() {
     blueSound.stop();
     yellowSound.stop();
   }
-  // const [fullSet, setFullSet] = useState([RED]);  -- For implementation of custom sequences
+  const [fullSet, setFullSet] = useState(['']);
+  const [recording, setRecording] = useState(false);
+  const [playRecord, setPlayRecord] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
 
   const increaseCursor = () => setCursor(previousState => previousState + 1);
+
+  const toggleRecord = () => {
+    if (recording) {
+      fullSet[0] !== '' ? setPlayRecord(true) : setPlayRecord(false);
+    } else {
+      setFullSet('');
+    }
+
+    setRecording((previousState) => !previousState);
+  }
 
   const handleClick = (code) => {
     if (!playback) {
@@ -46,20 +57,26 @@ function App() {
       }
       setCurrentDimTimeout(setTimeout(() => dimAll(), TIME_LIT));
       
-      
-      if (code === currentLevel[cursor]) {
-        // CORRECT
-        increaseCursor();
+      // If in normal gameplay...
+      if (!recording) {
+        if (code === currentLevel[cursor]) {
+          // CORRECT
+          increaseCursor();
 
-        if (cursor === currentLevel.length - 1) {
-          // LEVEL COMPLETE
-          nextRound();
+          if (cursor === currentLevel.length - 1) {
+            // LEVEL COMPLETE
+            nextRound();
+          }
+
+        } else if (currentLevel[0] !== '') {
+          // INCORRECT
+          // Failure();
         }
-
-      } else if (currentLevel[0] !== '') {
-        // INCORRECT
-        // Failure();
-
+      } else {
+        // If currently recording...
+        const newSet = [...fullSet];
+        newSet[cursor] = code;
+        setFullSet(newSet);
       }
     }
   };
@@ -67,10 +84,14 @@ function App() {
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
-    if (firstRound) {
+    if (firstRound && !playRecord) {
       sequence = getSequence(1);
-    } else {
+    } else if (!playRecord) {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
+    } else {
+      // Only plays if currently playing back a custom sequence
+      firstRound ? sequence = [fullSet[0]] :
+          sequence = [...currentLevel, fullSet[currentLevel.length]]
     }
     setCursor(0);
     setCurrentLevel(sequence);
