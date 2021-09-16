@@ -129,7 +129,7 @@ nav {
   left: auto;
   right: 0;
   z-index: 51;
-  background-color: #282c34;
+  background-color: transparent;
   color: #e3f2fd;
   border-width: 0 !important;
 }

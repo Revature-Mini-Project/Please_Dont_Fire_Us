@@ -10,7 +10,6 @@ import yellow from './sounds/yellowShort.mp3';
 import Confetti from 'react-confetti';
 
 import { Directions } from './components/cards/TheGame';
-import { Title } from './components/title/Title';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
 import registerKeyInputListeners from './input/KeyboardInput';
@@ -58,7 +57,6 @@ function App() {
     setPlayTime(() => ++timeCounter / 2); //this is dark magic; don't ask
   };
 
-
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
   const toggleRecord = () => {
@@ -88,7 +86,10 @@ function App() {
           if (cursor === currentLevel.length - 1) {
             // LEVEL COMPLETE
 
-            if ((!playRecord && currentLevel.length >= VICTORY) || (playRecord && currentLevel.length === fullSet.length)) {
+            if (
+              (!playRecord && currentLevel.length >= VICTORY) ||
+              (playRecord && currentLevel.length === fullSet.length)
+            ) {
               // Game complete
               setCurrentLevel(['']);
               victoryFanfareLights();
@@ -114,7 +115,9 @@ function App() {
   };
 
   const victoryFanfareLights = () => {
-    let toggle = false, iterations = 0;
+    clearInterval(timeInterval.current);
+    let toggle = false,
+      iterations = 0;
     setPlayback(true);
     const interval = setInterval(() => {
       lightMult(toggle ? [RED, YELLOW] : [BLUE, GREEN]);
@@ -126,10 +129,12 @@ function App() {
         dimAll();
       }
     }, TIME_LIT);
-  }
+  };
 
   const defeatFanfareLights = (code) => {
-    let toggle = false, iterations = 0;
+    clearInterval(timeInterval.current);
+    let toggle = false,
+      iterations = 0;
     setPlayback(true);
     const interval = setInterval(() => {
       lightMult(toggle ? [code] : ['']);
@@ -141,8 +146,8 @@ function App() {
         dimAll();
       }
     }, TIME_LIT);
-  }
-  
+  };
+
   let keyControls;
 
   useEffect(() => {
@@ -174,10 +179,10 @@ function App() {
   };
 
   // Sets one button as lit; only one can be lit at a time by this
-  /** 
-  * Lights up one or more lights, playing sound on the first.
-  * Takes in an array.
-  */
+  /**
+   * Lights up one or more lights, playing sound on the first.
+   * Takes in an array.
+   */
   const lightUp = (code) => {
     console.log('decoded');
     stopAll();
@@ -187,8 +192,8 @@ function App() {
 
   // Silently lights up one or more lights
   const lightMult = (code) => {
-    setActiveButton(code)
-  }
+    setActiveButton(code);
+  };
 
   function playSound(code) {
     switch (code) {
@@ -236,13 +241,11 @@ function App() {
 
   const MaybeConfetti = () => {
     if (shouldConfetti) {
-      return (
-        <Confetti initialVelocityY={-30} />
-      )
+      return <Confetti initialVelocityY={-30} />;
     } else {
-      return (null)
+      return null;
     }
-  }
+  };
 
   return (
     <div className='App'>

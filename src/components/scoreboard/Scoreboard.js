@@ -1,20 +1,6 @@
 import React from 'react';
 
 export function Scoreboard(props) {
-  // let elapsed = parseInt((performance.now() - props.start) / 1000).toString();
-
-  // React.useEffect(
-  //   () =>
-  //     setInterval(
-  //       () =>
-  //         (elapsed = parseInt(
-  //           (performance.now() - props.start) / 1000
-  //         ).toString()),
-  //       500
-  //     ),
-  //   []
-  // );
-
   return (
     <div>
       <div id='scoreboard' class='card'>
