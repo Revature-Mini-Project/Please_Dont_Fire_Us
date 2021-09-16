@@ -56,7 +56,7 @@ function App() {
 
   const handleClick = (code) => {
     if (!playback) {
-      lightUp(code);
+      lightUp([code]);
       if (dimTimeout) {
         clearTimeout(dimTimeout);
       }
@@ -161,9 +161,10 @@ function App() {
     console.log('decoded');
     stopAll();
     playSound(code);
-    setActiveButton([code]);
+    setActiveButton(code);
   };
 
+  // Silently lights up one or more lights
   const lightMult = (code) => {
     setActiveButton(code)
   }
@@ -202,7 +203,7 @@ function App() {
     let recCursor = 0;
     setPlayback(true);
     const interval = setInterval(() => {
-      lightUp(sequence[recCursor]);
+      lightUp([sequence[recCursor]]);
       recCursor++;
       if (recCursor > sequence.length) {
         clearInterval(interval);
