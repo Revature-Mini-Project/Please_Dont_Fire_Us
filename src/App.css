@@ -125,3 +125,12 @@
 nav {
   background-color: #e3f2fd;
 }
+#scoreboard {
+  position: absolute;
+  width: 20rem;
+  right: 0;
+  top: 0;
+  font-size: 14pt;
+  min-height: 100vh;
+  z-index: 49;
+}

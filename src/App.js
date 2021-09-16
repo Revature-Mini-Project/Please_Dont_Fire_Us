@@ -9,13 +9,15 @@ import blue from './sounds/blue.mp3';
 import yellow from './sounds/yellow.mp3';
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
+import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
 import registerKeyInputListeners from "./input/KeyboardInput";
-const TIME_LIT = 300, TIME_DIM = 30;
+const TIME_LIT = 300,
+  TIME_DIM = 30;
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 function App() {
   const [activeButton, setActiveButton] = useState('');
@@ -30,7 +32,7 @@ function App() {
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
 
-  const increaseCursor = () => setCursor(previousState => previousState + 1);
+  const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
   const handleClick = (code) => {
     if (!playback) {
@@ -44,11 +46,9 @@ function App() {
         if (cursor === currentLevel.length - 1) {
           nextRound();
         }
-
       } else {
         // INCORRECT
         // Failure();
-
       }
     }
   };
@@ -77,7 +77,7 @@ function App() {
     setCursor(0);
     setCurrentLevel(sequence);
     setTimeout(() => handleRecite(sequence), 400);
-  }
+  };
 
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
@@ -87,8 +87,8 @@ function App() {
   };
 
   function playSound(code) {
-    switch(code) {
-      case 'green': 
+    switch (code) {
+      case 'green':
         console.log('green');
         playGreen();
         break;
@@ -96,15 +96,15 @@ function App() {
         console.log('red');
         playRed();
         break;
-      case 'blue': 
-        console.log('blue')
+      case 'blue':
+        console.log('blue');
         playBlue();
         break;
       case 'yellow':
-        console.log('yellow')
+        console.log('yellow');
         playYellow();
         break;
-      default: 
+      default:
         console.log('something went wrong');
     }
   }
@@ -112,24 +112,23 @@ function App() {
   // Dims all buttons
   const dimAll = () => {
     setActiveButton('');
-  }
+  };
 
-  
   // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = (sequence = currentLevel) => {
     let recCursor = 0;
     setPlayback(true);
     const interval = setInterval(() => {
-      lightUp(sequence[recCursor])
+      lightUp(sequence[recCursor]);
       recCursor++;
       if (recCursor > sequence.length) {
-        clearInterval(interval)
+        clearInterval(interval);
         setPlayback(false);
-      };
+      }
       setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
     }, TIME_LIT);
-  }
-  
+  };
+
   return (
     <div className='App'>
       {/* <Title /> */}
@@ -144,7 +143,7 @@ function App() {
           onClick={() => handleClick(RED)}
           className={activeButton === 'red' ? 'red-active' : null}
           id='red'
-          ></section>
+        ></section>
         <section
           onClick={() => handleClick(YELLOW)}
           className={activeButton === 'yellow' ? 'yellow-active' : null}
@@ -155,11 +154,13 @@ function App() {
           className={activeButton === 'blue' ? 'blue-active' : null}
           id='blue'
         ></section>
-        <section
-          onClick={null}
-          id='center'
-        ></section>
+        <section onClick={null} id='center'>
+          <button id='start' onClick={() => nextRound(true)}>
+            START
+          </button>
+        </section>
       </main>
+      <Scoreboard />
     </div>
   );
 }
