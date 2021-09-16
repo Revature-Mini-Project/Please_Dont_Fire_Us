@@ -24,11 +24,12 @@ function App() {
   const [activeButton, setActiveButton] = useState('');
   const [currentLevel, setCurrentLevel] = useState([RED]);
 
+  let grBool, rBool, blBool, yBool;
   // const [playSound, setPlaySound] = useSound();
-  const [playGreen] = useSound(green);
-  const [playRed] = useSound(red);
-  const [playBlue] = useSound(blue);
-  const [playYellow] = useSound(yellow);
+  const [playGreen] = useSound(green, {playbackRate: 1, soundEnabled: grBool} );
+  const [playRed] = useSound(red, {playbackRate: 1, soundEnabled: rBool} );
+  const [playBlue] = useSound(blue, {playbackRate: 1, soundEnabled: blBool} );
+  const [playYellow] = useSound(yellow, {playbackRate: 1, soundEnabled: yBool} );
   // const [fullSet, setFullSet] = useState([RED]);  -- For implementation of custom sequences
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
@@ -78,18 +79,34 @@ function App() {
     switch (code) {
       case 'green':
         console.log('green');
+        grBool = true;
+        rBool = false;
+        blBool = false;
+        yBool = false;
         playGreen();
         break;
       case 'red':
         console.log('red');
+        grBool = false;
+        rBool = true;
+        blBool = false;
+        yBool = false;
         playRed();
         break;
       case 'blue':
         console.log('blue');
+        grBool = false;
+        rBool = false;
+        blBool = true;
+        yBool = false;
         playBlue();
         break;
       case 'yellow':
         console.log('yellow');
+        grBool = false;
+        rBool = false;
+        blBool = false;
+        yBool = true;
         playYellow();
         break;
       default:
