@@ -12,7 +12,7 @@ import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
-import registerKeyInputListeners from "./input/KeyboardInput";
+import registerKeyInputListeners from './input/KeyboardInput';
 const TIME_LIT = 300,
   TIME_DIM = 30;
 
@@ -24,21 +24,32 @@ function App() {
   const [activeButton, setActiveButton] = useState('');
   const [currentLevel, setCurrentLevel] = useState(['']);
   const [dimTimeout, setCurrentDimTimeout] = useState(0);
-  const [playGreen, greenSound] = useSound(green, {interrupt: true, volume: 0.5});
-  const [playRed, redSound] = useSound(red, {interrupt: true, volume: 0.5});
-  const [playBlue, blueSound] = useSound(blue, {interrupt: true, volume: 0.5});
-  const [playYellow, yellowSound] = useSound(yellow, {interrupt: true, volume: 0.5});
+  const [playGreen, greenSound] = useSound(green, {
+    interrupt: true,
+    volume: 0.5
+  });
+  const [playRed, redSound] = useSound(red, { interrupt: true, volume: 0.5 });
+  const [playBlue, blueSound] = useSound(blue, {
+    interrupt: true,
+    volume: 0.5
+  });
+  const [playYellow, yellowSound] = useSound(yellow, {
+    interrupt: true,
+    volume: 0.5
+  });
   const stopAll = () => {
     greenSound.stop();
     redSound.stop();
     blueSound.stop();
     yellowSound.stop();
-  }
+  };
   const [fullSet, setFullSet] = useState(['']);
   const [recording, setRecording] = useState(false);
   const [playRecord, setPlayRecord] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
+  const [startTime, setStartTime] = useState(0);
+  const [playTime, setPlayTime] = useState(0);
 
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
@@ -50,7 +61,7 @@ function App() {
     }
 
     setRecording((previousState) => !previousState);
-  }
+  };
 
   const handleClick = (code) => {
     if (!playback) {
@@ -59,7 +70,7 @@ function App() {
         clearTimeout(dimTimeout);
       }
       setCurrentDimTimeout(setTimeout(() => dimAll(), TIME_LIT));
-      
+
       // If in normal gameplay...
       if (!recording) {
         if (code === currentLevel[cursor]) {
@@ -70,7 +81,6 @@ function App() {
             // LEVEL COMPLETE
             nextRound();
           }
-
         } else if (currentLevel[0] !== '') {
           // INCORRECT
           // Failure();
@@ -83,20 +93,18 @@ function App() {
       }
     }
   };
-  
+
   let keyControls;
-  
+
   useEffect(() => {
-    
     keyControls = registerKeyInputListeners(
-      ["7", () => handleClick(GREEN)],
-      ["9", () => handleClick(RED)],
-      ["1", () => handleClick(YELLOW)],
-      ["3", () => handleClick(BLUE)]
+      ['7', () => handleClick(GREEN)],
+      ['9', () => handleClick(RED)],
+      ['1', () => handleClick(YELLOW)],
+      ['3', () => handleClick(BLUE)]
     );
-    
   }, []);
-  
+
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
@@ -106,8 +114,9 @@ function App() {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
     } else {
       // Only plays if currently playing back a custom sequence
-      firstRound ? sequence = [fullSet[0]] :
-          sequence = [...currentLevel, fullSet[currentLevel.length]]
+      firstRound
+        ? (sequence = [fullSet[0]])
+        : (sequence = [...currentLevel, fullSet[currentLevel.length]]);
     }
     setCursor(0);
     setCurrentLevel(sequence);
@@ -149,7 +158,7 @@ function App() {
   const dimAll = () => {
     setActiveButton('');
     stopAll();
-  }
+  };
 
   // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = (sequence = currentLevel) => {
@@ -192,12 +201,25 @@ function App() {
           id='blue'
         ></section>
         <section onClick={null} id='center'>
-          <button id='start' onClick={() => nextRound(true)}>
+          <button
+            id='start'
+            onClick={() => {
+              nextRound(true);
+              setStartTime(
+                performance.now(),
+                setInterval(() => {
+                  setPlayTime(
+                    parseInt((performance.now() - startTime) / 1000).toString()
+                  );
+                }, 500)
+              );
+            }}
+          >
             START
           </button>
         </section>
       </main>
-      <Scoreboard level={currentLevel.length} />
+      <Scoreboard level={currentLevel.length} time={playTime} />
     </div>
   );
 }
