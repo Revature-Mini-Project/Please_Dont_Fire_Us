@@ -133,6 +133,32 @@ nav {
   color: #e3f2fd;
   border-width: 0 !important;
 }
+#keybindings {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20rem;
+  z-index: 52;
+  color: #e3f2fd;
+  height: 25%;
+}
+.keybutton {
+  width: 45%;
+  margin: 2.5%;
+  color: #e3f2fd;
+}
+#redkey {
+  background-color: #931400;
+}
+#bluekey {
+  background-color: #0c1d64;
+}
+#greenkey {
+  background-color: #006c21;
+}
+#yellowkey {
+  background-color: #936700;
+}
 
 dl {
   width: 100%;
@@ -152,4 +178,8 @@ dt::after {
 dd {
   margin: 0 0 0 80px;
   padding: 0 0 0.5em 0;
+}
+
+.tiny {
+  font-size: 10pt;
 }

@@ -50,6 +50,10 @@ function App() {
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
   const [shouldConfetti, setShouldConfetti] = useState(false);
+
+  const [keys, setKeys] = useState([]);
+  const [reRender, setReRender] = useState(false);
+
   const [playTime, setPlayTime] = useState(0); //keeps track of time for timer
   let timeInterval = useRef(null); //used to refer to interval for clearing
   let timeCounter = 0; //needs to be declared here for some reason?
@@ -150,15 +154,16 @@ function App() {
     }, TIME_LIT);
   };
 
-  let keyControls;
+  // let keyControls;
 
   useEffect(() => {
-    keyControls = registerKeyInputListeners(
-      ["7", () => setHandlePress(GREEN)],
-      ["9", () => setHandlePress(RED)],
-      ["1", () => setHandlePress(YELLOW)],
-      ["3", () => setHandlePress(BLUE)]
+    const keyControls = registerKeyInputListeners(
+      ['7', () => setHandlePress(GREEN)],
+      ['9', () => setHandlePress(RED)],
+      ['1', () => setHandlePress(YELLOW)],
+      ['3', () => setHandlePress(BLUE)]
     );
+    setKeys(keyControls);
   }, []);
 
   useEffect(() => {
@@ -167,7 +172,7 @@ function App() {
       setHandlePress('');
     }
   }, [handlePress]);
-  
+
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
@@ -295,6 +300,47 @@ function App() {
         </section>
       </main>
       <Scoreboard level={currentLevel.length} time={playTime} />
+      <aside id='keybindings'>
+        <h5 className='card-title'>Keybindings</h5>
+        <p className='tiny'>After pressing button, press new key</p>
+        <button
+          id='greenkey'
+          class='keybutton'
+          onClick={() => {
+            keys[0][1]().then(() => setReRender(!reRender));
+          }}
+        >
+          Green: {keys[0] ? keys[0][0]() : null}
+        </button>
+        <button
+          id='redkey'
+          class='keybutton'
+          onClick={() => {
+            keys[1][1]().then(() => setReRender(!reRender));
+          }}
+        >
+          Red: {keys[1] ? keys[1][0]() : null}
+        </button>
+        <br />
+        <button
+          id='yellowkey'
+          class='keybutton'
+          onClick={() => {
+            keys[2][1]().then(() => setReRender(!reRender));
+          }}
+        >
+          Yellow: {keys[2] ? keys[2][0]() : null}
+        </button>
+        <button
+          id='bluekey'
+          class='keybutton'
+          onClick={() => {
+            keys[3][1]().then(() => setReRender(!reRender));
+          }}
+        >
+          Blue: {keys[3] ? keys[3][0]() : null}
+        </button>
+      </aside>
     </div>
   );
 }
