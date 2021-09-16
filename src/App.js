@@ -7,6 +7,7 @@ import green from './sounds/greenShort.mp3';
 import red from './sounds/redShort.mp3';
 import blue from './sounds/blueShort.mp3';
 import yellow from './sounds/yellowShort.mp3';
+import Confetti from 'react-confetti';
 
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
@@ -213,7 +214,7 @@ function App() {
 
   return (
     <div className='App'>
-      {/* <Title /> */}
+      <Confetti />
       <Directions />
       <main id='circle'>
         <section
