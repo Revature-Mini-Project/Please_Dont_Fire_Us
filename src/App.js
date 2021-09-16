@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
+import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
 
 const TIME_LIT = 300,
@@ -34,7 +35,6 @@ function App() {
         if (cursor === currentLevel.length - 1) {
           nextRound();
         }
-
       } else {
         // INCORRECT
       }
@@ -53,7 +53,7 @@ function App() {
     setCursor(0);
     setCurrentLevel(sequence);
     setTimeout(() => handleRecite(sequence), 400);
-  }
+  };
 
   // Sets one button as lit; only one can be lit at a time by this
   const lightUp = (code) => {
@@ -71,10 +71,10 @@ function App() {
     let recCursor = 0;
     setPlayback(true);
     const interval = setInterval(() => {
-      lightUp(sequence[recCursor])
+      lightUp(sequence[recCursor]);
       recCursor++;
       if (recCursor > sequence.length) {
-        clearInterval(interval)
+        clearInterval(interval);
         setPlayback(false);
       }
       setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
@@ -112,6 +112,7 @@ function App() {
           </button>
         </section>
       </main>
+      <Scoreboard />
     </div>
   );
 }
