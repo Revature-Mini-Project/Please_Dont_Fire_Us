@@ -1,9 +1,12 @@
 export function Scoreboard() {
   return (
     <div>
-      <div id='scoreboard'>
+      <div id='scoreboard' class='card'>
         <div className='card-body'>
-          <p>Scoreboard</p>
+          <dl>
+            <dt>Level</dt>
+            <dl id='score-level'>1</dl>
+          </dl>
         </div>
       </div>
     </div>
