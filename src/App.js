@@ -63,7 +63,10 @@ function App() {
 
   const toggleRecord = () => {
     if (recording) {
-      fullSet[0] !== '' ? setPlayRecord(true) : setPlayRecord(false);
+      if (fullSet[0] !== '') {
+        setPlayRecord(true);
+        nextRound(true);
+      } else setPlayRecord(false);
     } else {
       setFullSet('');
     }
@@ -206,19 +209,19 @@ function App() {
 
   function playSound(code) {
     switch (code) {
-      case 'green':
+      case GREEN:
         // console.log('green');
         playGreen();
         break;
-      case 'red':
+      case RED:
         // console.log('red');
         playRed();
         break;
-      case 'blue':
+      case BLUE:
         // console.log('blue');
         playBlue();
         break;
-      case 'yellow':
+      case YELLOW:
         // console.log('yellow');
         playYellow();
         break;
@@ -263,22 +266,22 @@ function App() {
       <main id='circle'>
         <section
           onClick={() => handleClick(GREEN)}
-          className={activeButton.includes('green') ? 'green-active' : null}
+          className={activeButton.includes(GREEN) ? 'green-active' : null}
           id='green'
         ></section>
         <section
           onClick={() => handleClick(RED)}
-          className={activeButton.includes('red') ? 'red-active' : null}
+          className={activeButton.includes(RED) ? 'red-active' : null}
           id='red'
         ></section>
         <section
           onClick={() => handleClick(YELLOW)}
-          className={activeButton.includes('yellow') ? 'yellow-active' : null}
+          className={activeButton.includes(YELLOW) ? 'yellow-active' : null}
           id='yellow'
         ></section>
         <section
           onClick={() => handleClick(BLUE)}
-          className={activeButton.includes('blue') ? 'blue-active' : null}
+          className={activeButton.includes(BLUE) ? 'blue-active' : null}
           id='blue'
         ></section>
         <section onClick={null} id='center'>
