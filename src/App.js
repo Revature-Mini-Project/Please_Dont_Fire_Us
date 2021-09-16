@@ -7,6 +7,7 @@ import green from './sounds/greenShort.mp3';
 import red from './sounds/redShort.mp3';
 import blue from './sounds/blueShort.mp3';
 import yellow from './sounds/yellowShort.mp3';
+import Confetti from 'react-confetti';
 
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
@@ -14,14 +15,15 @@ import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
 import registerKeyInputListeners from './input/KeyboardInput';
 const TIME_LIT = 300,
-  TIME_DIM = 30;
+  TIME_DIM = 30,
+  VICTORY = 10;
 
 /**
  *
  * @returns
  */
 function App() {
-  const [activeButton, setActiveButton] = useState('');
+  const [activeButton, setActiveButton] = useState(['']);
   const [currentLevel, setCurrentLevel] = useState(['']);
   const [dimTimeout, setCurrentDimTimeout] = useState(0);
   const [playGreen, greenSound] = useSound(green, {
@@ -48,12 +50,14 @@ function App() {
   const [playRecord, setPlayRecord] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
+  const [shouldConfetti, setShouldConfetti] = useState(false);
   const [playTime, setPlayTime] = useState(0); //keeps track of time for timer
   let timeInterval = useRef(null); //used to refer to interval for clearing
   let timeCounter = 0; //needs to be declared here for some reason?
   const timerIntervalFn = () => {
     setPlayTime(() => ++timeCounter / 2); //this is dark magic; don't ask
   };
+
 
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
@@ -69,7 +73,7 @@ function App() {
 
   const handleClick = (code) => {
     if (!playback) {
-      lightUp(code);
+      lightUp([code]);
       if (dimTimeout) {
         clearTimeout(dimTimeout);
       }
@@ -83,11 +87,22 @@ function App() {
 
           if (cursor === currentLevel.length - 1) {
             // LEVEL COMPLETE
-            nextRound();
+
+            if ((!playRecord && currentLevel.length >= VICTORY) || (playRecord && currentLevel.length === fullSet.length)) {
+              // Game complete
+              setCurrentLevel(['']);
+              victoryFanfareLights();
+              setShouldConfetti(true);
+            } else {
+              // Moving on to next level
+              nextRound();
+            }
           }
         } else if (currentLevel[0] !== '') {
           // INCORRECT
           // Failure();
+          defeatFanfareLights(currentLevel[cursor]);
+          setCurrentLevel(['']);
         }
       } else {
         // If currently recording...
@@ -98,6 +113,36 @@ function App() {
     }
   };
 
+  const victoryFanfareLights = () => {
+    let toggle = false, iterations = 0;
+    setPlayback(true);
+    const interval = setInterval(() => {
+      lightMult(toggle ? [RED, YELLOW] : [BLUE, GREEN]);
+      toggle = !toggle;
+      iterations++;
+      if (iterations > 8) {
+        clearInterval(interval);
+        setPlayback(false);
+        dimAll();
+      }
+    }, TIME_LIT);
+  }
+
+  const defeatFanfareLights = (code) => {
+    let toggle = false, iterations = 0;
+    setPlayback(true);
+    const interval = setInterval(() => {
+      lightMult(toggle ? [code] : ['']);
+      toggle = !toggle;
+      iterations++;
+      if (iterations > 8) {
+        clearInterval(interval);
+        setPlayback(false);
+        dimAll();
+      }
+    }, TIME_LIT);
+  }
+  
   let keyControls;
 
   useEffect(() => {
@@ -122,18 +167,28 @@ function App() {
         ? (sequence = [fullSet[0]])
         : (sequence = [...currentLevel, fullSet[currentLevel.length]]);
     }
+    setShouldConfetti(false);
     setCursor(0);
     setCurrentLevel(sequence);
     setTimeout(() => handleRecite(sequence), 400);
   };
 
   // Sets one button as lit; only one can be lit at a time by this
+  /** 
+  * Lights up one or more lights, playing sound on the first.
+  * Takes in an array.
+  */
   const lightUp = (code) => {
     console.log('decoded');
     stopAll();
-    playSound(code);
+    playSound(code[0]);
     setActiveButton(code);
   };
+
+  // Silently lights up one or more lights
+  const lightMult = (code) => {
+    setActiveButton(code)
+  }
 
   function playSound(code) {
     switch (code) {
@@ -160,7 +215,7 @@ function App() {
 
   // Dims all buttons
   const dimAll = () => {
-    setActiveButton('');
+    setActiveButton(['']);
     stopAll();
   };
 
@@ -169,7 +224,7 @@ function App() {
     let recCursor = 0;
     setPlayback(true);
     const interval = setInterval(() => {
-      lightUp(sequence[recCursor]);
+      lightUp([sequence[recCursor]]);
       recCursor++;
       if (recCursor > sequence.length) {
         clearInterval(interval);
@@ -179,29 +234,39 @@ function App() {
     }, TIME_LIT);
   };
 
+  const MaybeConfetti = () => {
+    if (shouldConfetti) {
+      return (
+        <Confetti initialVelocityY={-30} />
+      )
+    } else {
+      return (null)
+    }
+  }
+
   return (
     <div className='App'>
-      {/* <Title /> */}
+      <MaybeConfetti />
       <Directions />
       <main id='circle'>
         <section
           onClick={() => handleClick(GREEN)}
-          className={activeButton === 'green' ? 'green-active' : null}
+          className={activeButton.includes('green') ? 'green-active' : null}
           id='green'
         ></section>
         <section
           onClick={() => handleClick(RED)}
-          className={activeButton === 'red' ? 'red-active' : null}
+          className={activeButton.includes('red') ? 'red-active' : null}
           id='red'
         ></section>
         <section
           onClick={() => handleClick(YELLOW)}
-          className={activeButton === 'yellow' ? 'yellow-active' : null}
+          className={activeButton.includes('yellow') ? 'yellow-active' : null}
           id='yellow'
         ></section>
         <section
           onClick={() => handleClick(BLUE)}
-          className={activeButton === 'blue' ? 'blue-active' : null}
+          className={activeButton.includes('blue') ? 'blue-active' : null}
           id='blue'
         ></section>
         <section onClick={null} id='center'>
