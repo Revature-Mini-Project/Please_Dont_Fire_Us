@@ -5,7 +5,7 @@ export function Scoreboard() {
         <div className='card-body'>
           <dl>
             <dt>Level</dt>
-            <dl id='score-level'>1</dl>
+            <dl id='score-level'>press start</dl>
           </dl>
         </div>
       </div>
