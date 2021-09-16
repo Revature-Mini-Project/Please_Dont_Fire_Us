@@ -1,4 +1,4 @@
-# Simon Game
+# Simon Game - Get ready to watch, remember, repeat!
 
 <p align="center">
 <img alt="Sonar Cloud" src="https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg" />
@@ -30,6 +30,12 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 <br />
 
+## Description
+
+The Simon game is the exciting electronic game of lights and sounds in which players must repeat random sequences of lights by pressing the colored pads in the correct order. It's fast-paced play, with lights and sounds that can challenge you. Experience the fun as you repeat the patterns and advance to higher levels. Keep track of your score as you challenge friends or try to beat your own high score.
+
+<br />
+
 ## Getting Started
 
 - Clone the repository to your local machine (or server).
@@ -45,7 +51,14 @@
   ```bash
   npm start
   ```
+- Visit http://localhost:3000/ to play!
 - To deploy, see: https://facebook.github.io/create-react-app/docs/deployment
+
+<br />
+
+<p align="center">
+<img alt="Simon Logo" src="Simon_Logo2-removebg-preview.png" />
+</p>
 
 ## To Play the Game
 

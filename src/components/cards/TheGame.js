@@ -1,3 +1,8 @@
+/**
+ * creaated by Marc and Matt
+ * utilizes bootstrap to create a card
+ * @returns 
+ */
 export function Directions() {
   return (
     <div>
