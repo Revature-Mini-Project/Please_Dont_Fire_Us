@@ -68,11 +68,14 @@ function App() {
   const toggleRecord = () => {
     if (recording) {
       if (fullSet[0] !== '') {
+        setCursor(0);
         setPlayRecord(true);
         nextRound(true);
+        console.log(fullSet);
       } else setPlayRecord(false);
     } else {
       setFullSet('');
+      setCurrentLevel(['']);
     }
 
     setRecording((previousState) => !previousState);
@@ -116,8 +119,7 @@ function App() {
         }
       } else {
         // If currently recording...
-        const newSet = [...fullSet];
-        newSet[cursor] = code;
+        const newSet = [...fullSet, code];
         setFullSet(newSet);
       }
     }
@@ -179,7 +181,7 @@ function App() {
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
-    if (firstRound && !playRecord) {
+    if (firstRound && fullSet[0] !== '') {
       sequence = getSequence(1);
     } else if (!playRecord) {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
@@ -302,6 +304,12 @@ function App() {
           </button>
         </section>
       </main>
+      <button
+            id='record'
+            onClick={() => toggleRecord()}
+          >
+            {recording ? 'RECORDING...' : 'RECORD'}
+          </button>
       <Scoreboard level={currentLevel.length} time={playTime} />
       <aside id='keybindings'>
         <h5 className='card-title'>Keybindings</h5>
