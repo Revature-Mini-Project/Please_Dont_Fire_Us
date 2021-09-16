@@ -8,17 +8,17 @@ import red from './sounds/red.mp3';
 import blue from './sounds/blue.mp3';
 import yellow from './sounds/yellow.mp3';
 
-
-const TIME_LIT = 300, TIME_DIM = 30;
 import { Directions } from './components/cards/TheGame';
 import { Title } from './components/title/Title';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
 // import { Success, Failure } from './components/alerts/Alerts';
 
+const TIME_LIT = 300,
+  TIME_DIM = 30;
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 function App() {
   const [activeButton, setActiveButton] = useState('');
@@ -33,7 +33,7 @@ function App() {
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
 
-  const increaseCursor = () => setCursor(previousState => previousState + 1);
+  const increaseCursor = () => setCursor((previousState) => previousState + 1);
 
   const handleClick = (code) => {
     if (!playback) {
@@ -50,7 +50,6 @@ function App() {
       } else {
         // INCORRECT
         // Failure();
-
       }
     }
   };
@@ -76,8 +75,8 @@ function App() {
   };
 
   function playSound(code) {
-    switch(code) {
-      case 'green': 
+    switch (code) {
+      case 'green':
         console.log('green');
         playGreen();
         break;
@@ -85,15 +84,15 @@ function App() {
         console.log('red');
         playRed();
         break;
-      case 'blue': 
-        console.log('blue')
+      case 'blue':
+        console.log('blue');
         playBlue();
         break;
       case 'yellow':
-        console.log('yellow')
+        console.log('yellow');
         playYellow();
         break;
-      default: 
+      default:
         console.log('something went wrong');
     }
   }
@@ -101,9 +100,8 @@ function App() {
   // Dims all buttons
   const dimAll = () => {
     setActiveButton('');
-  }
+  };
 
-  
   // Lights all buttons in the current level in order and then sets playback to false
   const handleRecite = (sequence = currentLevel) => {
     let recCursor = 0;
@@ -114,10 +112,10 @@ function App() {
       if (recCursor > sequence.length) {
         clearInterval(interval);
         setPlayback(false);
-      };
+      }
       setTimeout(() => dimAll(), TIME_LIT - TIME_DIM);
     }, TIME_LIT);
-  }
+  };
 
   return (
     <div className='App'>
@@ -133,7 +131,7 @@ function App() {
           onClick={() => handleClick(RED)}
           className={activeButton === 'red' ? 'red-active' : null}
           id='red'
-          ></section>
+        ></section>
         <section
           onClick={() => handleClick(YELLOW)}
           className={activeButton === 'yellow' ? 'yellow-active' : null}
@@ -144,10 +142,11 @@ function App() {
           className={activeButton === 'blue' ? 'blue-active' : null}
           id='blue'
         ></section>
-        <section
-          onClick={null}
-          id='center'
-        ></section>
+        <section onClick={null} id='center'>
+          <button id='start' onClick={() => nextRound(true)}>
+            START
+          </button>
+        </section>
       </main>
       <Scoreboard />
     </div>
