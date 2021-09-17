@@ -1,5 +1,4 @@
 import './App.css';
-
 import React, { useState, useEffect, useRef } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import useSound from 'use-sound';
@@ -8,10 +7,8 @@ import red from './sounds/redShort.mp3';
 import blue from './sounds/blueShort.mp3';
 import yellow from './sounds/yellowShort.mp3';
 import Confetti from 'react-confetti';
-
 import { Directions } from './components/cards/TheGame';
 import { Scoreboard } from './components/scoreboard/Scoreboard';
-// import { Success, Failure } from './components/alerts/Alerts';
 import registerKeyInputListeners from './input/KeyboardInput';
 const TIME_LIT = 300,
   TIME_DIM = 30,
@@ -50,28 +47,28 @@ function App() {
   const [cursor, setCursor] = useState(0);
   const [playback, setPlayback] = useState(false);
   const [shouldConfetti, setShouldConfetti] = useState(false);
-
   const [keys, setKeys] = useState([]);
   const [reRender, setReRender] = useState(false);
-
   const [playTime, setPlayTime] = useState(0); //keeps track of time for timer
   let timeInterval = useRef(null); //used to refer to interval for clearing
   let timeCounter = 0; //needs to be declared here for some reason?
   const timerIntervalFn = () => {
-    setPlayTime(() => ++timeCounter / 2); //this is dark magic; don't ask
+    setPlayTime(() => ++timeCounter);
   };
 
   const [handlePress, setHandlePress] = useState('');
-
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
-
   const toggleRecord = () => {
     if (recording) {
-      fullSet[0] !== '' ? setPlayRecord(true) : setPlayRecord(false);
+      if (fullSet[0] !== '') {
+        setCursor(0);
+        setPlayRecord(true);
+        nextRound(true);
+      } else setPlayRecord(false);
     } else {
       setFullSet('');
+      setCurrentLevel(['']);
     }
-
     setRecording((previousState) => !previousState);
   };
 
@@ -107,14 +104,12 @@ function App() {
           }
         } else if (currentLevel[0] !== '') {
           // INCORRECT
-          // Failure();
           defeatFanfareLights(currentLevel[cursor]);
           setCurrentLevel(['']);
         }
       } else {
         // If currently recording...
-        const newSet = [...fullSet];
-        newSet[cursor] = code;
+        const newSet = [...fullSet, code];
         setFullSet(newSet);
       }
     }
@@ -154,8 +149,6 @@ function App() {
     }, TIME_LIT);
   };
 
-  // let keyControls;
-
   useEffect(() => {
     const keyControls = registerKeyInputListeners(
       ['7', () => setHandlePress(GREEN)],
@@ -176,7 +169,7 @@ function App() {
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
-    if (firstRound && !playRecord) {
+    if (firstRound && fullSet[0] === '') {
       sequence = getSequence(1);
     } else if (!playRecord) {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
@@ -198,7 +191,6 @@ function App() {
    * Takes in an array.
    */
   const lightUp = (code) => {
-    console.log('decoded');
     stopAll();
     playSound(code[0]);
     setActiveButton(code);
@@ -211,24 +203,20 @@ function App() {
 
   function playSound(code) {
     switch (code) {
-      case 'green':
-        // console.log('green');
+      case GREEN:
         playGreen();
         break;
-      case 'red':
-        // console.log('red');
+      case RED:
         playRed();
         break;
-      case 'blue':
-        // console.log('blue');
+      case BLUE:
         playBlue();
         break;
-      case 'yellow':
-        // console.log('yellow');
+      case YELLOW:
         playYellow();
         break;
       default:
-        console.log(`Invalid sound request: received code ${code}.`);
+        break;
     }
   }
 
@@ -268,22 +256,22 @@ function App() {
       <main id='circle'>
         <section
           onClick={() => handleClick(GREEN)}
-          className={activeButton.includes('green') ? 'green-active' : null}
+          className={activeButton.includes(GREEN) ? 'green-active' : null}
           id='green'
         ></section>
         <section
           onClick={() => handleClick(RED)}
-          className={activeButton.includes('red') ? 'red-active' : null}
+          className={activeButton.includes(RED) ? 'red-active' : null}
           id='red'
         ></section>
         <section
           onClick={() => handleClick(YELLOW)}
-          className={activeButton.includes('yellow') ? 'yellow-active' : null}
+          className={activeButton.includes(YELLOW) ? 'yellow-active' : null}
           id='yellow'
         ></section>
         <section
           onClick={() => handleClick(BLUE)}
-          className={activeButton.includes('blue') ? 'blue-active' : null}
+          className={activeButton.includes(BLUE) ? 'blue-active' : null}
           id='blue'
         ></section>
         <section onClick={null} id='center'>
@@ -299,6 +287,13 @@ function App() {
           </button>
         </section>
       </main>
+      <aside id='record-container'>
+        <h5 className='card-title'>Record a Custom Pattern</h5>
+        <p className='tiny'>Challenge a friend!</p>
+        <button id='record' onClick={() => toggleRecord()}>
+          {recording ? 'RECORDING...' : 'RECORD'}
+        </button>
+      </aside>
       <Scoreboard level={currentLevel.length} time={playTime} />
       <aside id='keybindings'>
         <h5 className='card-title'>Keybindings</h5>
