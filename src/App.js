@@ -57,17 +57,19 @@ function App() {
   };
 
   const [handlePress, setHandlePress] = useState('');
+  const [newRound, setNewRound] = useState([]);
   const increaseCursor = () => setCursor((previousState) => previousState + 1);
   const toggleRecord = () => {
     if (recording) {
-      if (fullSet[0] !== '') {
+      if (fullSet[0]) {
         setCursor(0);
         setPlayRecord(true);
-        nextRound(true);
+        setNewRound([true]);
       } else setPlayRecord(false);
     } else {
       setFullSet('');
       setCurrentLevel(['']);
+      setCursor(0);
     }
     setRecording((previousState) => !previousState);
   };
@@ -166,18 +168,24 @@ function App() {
     }
   }, [handlePress]);
 
+  useEffect(() => {
+    if (newRound[0] || newRound[0] === false) {
+      nextRound(newRound[0])
+    }
+  }, [newRound]);
+
   // Unless given a true value, gets one additional random value for the next level
   const nextRound = (firstRound = false) => {
     let sequence = [''];
-    if (firstRound && fullSet[0] === '') {
+    if (firstRound && !fullSet[0]) {
       sequence = getSequence(1);
     } else if (!playRecord) {
       sequence = getSequence(currentLevel.length + 1, currentLevel);
     } else {
       // Only plays if currently playing back a custom sequence
-      firstRound
-        ? (sequence = [fullSet[0]])
-        : (sequence = [...currentLevel, fullSet[currentLevel.length]]);
+      sequence = firstRound
+        ? ([fullSet[0]])
+        : ([...currentLevel, fullSet[currentLevel.length]]);
     }
     setShouldConfetti(false);
     setCursor(0);
