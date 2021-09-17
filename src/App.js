@@ -3,10 +3,10 @@ import './App.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { RED, GREEN, BLUE, YELLOW, getSequence } from './scripts/sequenceGen';
 import useSound from 'use-sound';
-import green from './sounds/greenShort.mp3';
-import red from './sounds/redShort.mp3';
-import blue from './sounds/blueShort.mp3';
-import yellow from './sounds/yellowShort.mp3';
+import green from './greenShort.mp3';
+import red from './redShort.mp3';
+import blue from './blueShort.mp3';
+import yellow from './yellowShort.mp3';
 import Confetti from 'react-confetti';
 
 import { Directions } from './components/cards/TheGame';
