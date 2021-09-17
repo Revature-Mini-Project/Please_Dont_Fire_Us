@@ -183,3 +183,22 @@ dd {
 .tiny {
   font-size: 10pt;
 }
+button {
+  font-size: 11pt;
+  height: 2.5em;
+  border-radius: 50%;
+}
+#record-container {
+  width: 20rem;
+  position: absolute;
+  right: 0;
+  top: 2rem;
+  height: 25%;
+  z-index: 54;
+}
+#record {
+  background-color: #5d2971;
+  color: #e3f2fd;
+  width: 45%;
+  margin: 2.5%;
+}
